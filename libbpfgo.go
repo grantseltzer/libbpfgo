@@ -218,10 +218,11 @@ type Module struct {
 }
 
 type BPFMap struct {
-	name   string
-	bpfMap *C.struct_bpf_map
-	fd     C.int
-	module *Module
+	name     string
+	bpfMap   *C.struct_bpf_map
+	fd       C.int
+	module   *Module
+	readonly bool
 }
 
 type BPFProg struct {

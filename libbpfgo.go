@@ -190,10 +190,61 @@ err_out:
     remove_kprobe_event(func_name, is_kretprobe);
     return NULL;
 }
+
+static bool str_has_suffix(const char *str, const char *suffix)
+{
+	size_t i, n1 = strlen(str), n2 = strlen(suffix);
+
+	if (n1 < n2)
+		return false;
+
+	for (i = 0; i < n2; i++) {
+		if (str[n1 - i - 1] != suffix[n2 - i - 1])
+			return false;
+	}
+
+	return true;
+}
+
+static const char *get_map_ident(const struct bpf_map *map)
+{
+	const char *name = bpf_map__name(map);
+
+	if (!bpf_map__is_internal(map))
+		return name;
+
+	if (str_has_suffix(name, ".data"))
+		return "data";
+	else if (str_has_suffix(name, ".rodata"))
+		return "rodata";
+	else if (str_has_suffix(name, ".bss"))
+		return "bss";
+	else if (str_has_suffix(name, ".kconfig"))
+		return "kconfig";
+	else
+		return NULL;
+}
+
+struct bpf_map* get_ro_map(struct bpf_object* obj)
+{
+	struct bpf_map *map;
+	const char* ident;
+
+	bpf_object__for_each_map(map, obj) {
+		if (bpf_map__is_internal(map)) {
+			ident = get_map_ident(map);
+			if (strcmp(ident, "rodata") == 0) {
+				return map;
+			}
+		}
+	}
+	return NULL;
+}
 */
 import "C"
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"path/filepath"
@@ -981,8 +1032,10 @@ func (rb *RingBuffer) Start() {
 
 func (rb *RingBuffer) Stop() {
 	if rb.stop != nil {
+		fmt.Println("???????????????????????????")
 		// Tell the poll goroutine that it's time to exit
 		close(rb.stop)
+		fmt.Println("???????????????????????????")
 
 		// The event channel should be drained here since the consumer
 		// may have stopped at this point. Failure to drain it will
@@ -992,17 +1045,24 @@ func (rb *RingBuffer) Stop() {
 		go func() {
 			for range eventChan {
 			}
+			fmt.Println("drained")
 		}()
+
+		fmt.Println("???????????????????????????")
 
 		// Wait for the poll goroutine to exit
 		rb.wg.Wait()
+		fmt.Println("???????????????????????????")
 
 		// Close the channel -- this is useful for the consumer but
 		// also to terminate the drain goroutine above.
 		close(eventChan)
+		fmt.Println("???????????????????????????")
 
 		// This allows Stop() to be called multiple times safely
 		rb.stop = nil
+		fmt.Println("nil")
+
 	}
 }
 
@@ -1282,5 +1342,36 @@ func (hook *TcHook) Query(tcOpts *TcOpts) error {
 	}
 	tcOptsFromC(tcOpts, opts)
 
+	return nil
+}
+
+func (m *Module) GetRODataMap() (*BPFMap, error) {
+	if m.obj == nil {
+		return nil, errors.New("unitialized bpf object")
+	}
+
+	roMap := C.get_ro_map(m.obj)
+	if roMap == nil {
+		return nil, errors.New("could not find .rodata map")
+	}
+
+	return &BPFMap{
+		name:     ".rodata",
+		bpfMap:   roMap,
+		fd:       C.bpf_map__fd(roMap), // Is having a fd even accurate here??
+		module:   m,
+		readonly: true,
+	}, nil
+}
+
+func (ro *BPFMap) UpdateReadonly(data unsafe.Pointer, size int) error {
+	if !ro.readonly {
+		return errors.New("not a readonly bpf map")
+	}
+
+	r := C.bpf_map__set_initial_value(ro.bpfMap, data, C.ulong(size))
+	if r != 0 {
+		return fmt.Errorf("oh nooo! %d", r)
+	}
 	return nil
 }

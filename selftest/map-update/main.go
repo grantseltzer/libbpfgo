@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"syscall"
 
-	"github.com/aquasecurity/libbpfgo"
-	bpf "github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 func resizeMap(module *bpf.Module, name string, size uint32) error {

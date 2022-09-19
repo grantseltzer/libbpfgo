@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
 )
 
 type SystemFunctionArgument interface {

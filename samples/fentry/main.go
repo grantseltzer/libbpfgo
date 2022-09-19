@@ -7,7 +7,7 @@ import (
 
 	"fmt"
 
-	"github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
 )
 
 func main() {

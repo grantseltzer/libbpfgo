@@ -3,7 +3,7 @@ package helpers
 import (
 	"testing"
 
-	"github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aquasecurity/libbpfgo/helpers"
+	"github.com/grantseltzer/libbpfgo/helpers"
 )
 
 func ExampleTracePipeListen_usage() {

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	bpf "github.com/aquasecurity/libbpfgo"
-	"github.com/aquasecurity/libbpfgo/helpers"
+	bpf "github.com/grantseltzer/libbpfgo"
+	"github.com/grantseltzer/libbpfgo/helpers"
 )
 
 func resizeMap(module *bpf.Module, name string, size uint32) error {

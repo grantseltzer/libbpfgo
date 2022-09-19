@@ -149,7 +149,7 @@ import (
 	"syscall"
 	"unsafe"
 
-	"github.com/aquasecurity/libbpfgo/rwarray"
+	"github.com/grantseltzer/libbpfgo/rwarray"
 )
 
 const (

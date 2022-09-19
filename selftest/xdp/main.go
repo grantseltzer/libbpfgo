@@ -8,7 +8,7 @@ import (
 	"os"
 	"os/exec"
 
-	bpf "github.com/aquasecurity/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 const (

@@ -8,7 +8,7 @@ import (
 	"net"
 	"os"
 
-	bpf "github.com/aquasecurity/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 func main() {

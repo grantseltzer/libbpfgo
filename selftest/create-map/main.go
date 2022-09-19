@@ -8,8 +8,8 @@ import (
 	"os"
 	"unsafe"
 
-	"github.com/aquasecurity/libbpfgo"
-	bpf "github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 /*

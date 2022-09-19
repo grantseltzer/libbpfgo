@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/aquasecurity/libbpfgo"
-	bpf "github.com/aquasecurity/libbpfgo"
+	"github.com/grantseltzer/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 func main() {

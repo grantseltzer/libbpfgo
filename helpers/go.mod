@@ -1,3 +1,3 @@
-module github.com/aquasecurity/libbpfgo/helpers
+module github.com/grantseltzer/libbpfgo/helpers
 
 go 1.19

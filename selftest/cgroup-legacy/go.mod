@@ -1,7 +1,7 @@
-module github.com/aquasecurity/libbpfgo/selftest/perfbuffers
+module github.com/grantseltzer/libbpfgoselftest/perfbuffers
 
 go 1.18
 
-require github.com/aquasecurity/libbpfgo v0.2.1-libbpf-0.4.0
+require github.com/grantseltzer/libbpfgo v0.2.1-libbpf-0.4.0
 
-replace github.com/aquasecurity/libbpfgo => ../../
+replace github.com/grantseltzer/libbpfgo => ../../

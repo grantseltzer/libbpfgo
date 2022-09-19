@@ -10,7 +10,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	bpf "github.com/aquasecurity/libbpfgo"
+	bpf "github.com/grantseltzer/libbpfgo"
 )
 
 func resizeMap(module *bpf.Module, name string, size uint32) error {
